@@ -22,3 +22,8 @@ gunicorn
 # ----------------------
 addict
 shortuuid
+
+
+urllib3==1.25.9
+Werkzeug==1.0.1
+uwsgi

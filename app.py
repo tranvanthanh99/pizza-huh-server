@@ -5,6 +5,7 @@ from models.product import Product
 from flask_cors import CORS
 import db
 import service
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -167,5 +168,6 @@ def track_order(phone):
 
 if __name__ == '__main__':
   # app.run(host='127.0.0.1', port=8000, debug=False)
-  app.run(debug=True, host='0.0.0.0')
+  port = int(os.environ.get("PORT", 5000))
+  app.run(debug=True, host='0.0.0.0', port=port)
     

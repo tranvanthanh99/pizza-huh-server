@@ -167,5 +167,5 @@ def track_order(phone):
 
 if __name__ == '__main__':
   # app.run(host='127.0.0.1', port=8000, debug=False)
-  app.run()
+  app.run(debug=True, host='0.0.0.0')
     

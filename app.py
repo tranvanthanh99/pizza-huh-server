@@ -149,6 +149,14 @@ def accept_order(order_id):
     else:
       return jsonify({'success': False}), 201
 
+@app.route('/decline-order/<order_id>')
+def decline_order(order_id):
+    res = service.decline_order(order_id)
+    if res:
+      return jsonify({'success': True}) , 200
+    else:
+      return jsonify({'success': False}), 201
+
 @app.route('/update-order', methods=['POST'])
 def update_order():
     order_id = request.json['order_id']

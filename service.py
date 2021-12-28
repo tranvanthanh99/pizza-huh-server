@@ -1,4 +1,5 @@
 from mongoengine import *
+from mongoengine.queryset.visitor import Q
 from models.user import User
 from models.product import Product
 from models.order import Order
@@ -133,7 +134,10 @@ def get_user_order(user_id):
     return orders
 
 def get_order(status):
-    found_order = Order.objects(status=status)
+    if status == "Đã hoàn thành":
+        found_order = Order.objects(Q(status=status) | Q(status="Đã hủy"))
+    else:
+        found_order = Order.objects(status=status)
     orders = []
     for order in found_order: 
         new_item_list = []
@@ -150,6 +154,19 @@ def accept_order(order_id):
         prep_time = accept_time + 5*60*1000
         bake_time = prep_time + 20*60*1000
         found_order.update(set__status="Đang thực hiện")
+        found_order.update(set__accept_time=accept_time)
+        found_order.update(set__prep_time=prep_time)
+        found_order.update(set__bake_time=bake_time)
+        return True
+    return False
+
+def decline_order(order_id):
+    found_order = Order.objects.with_id(order_id)
+    if found_order:
+        accept_time = unix_time_millis()
+        prep_time = accept_time
+        bake_time = accept_time
+        found_order.update(set__status="Đã hủy")
         found_order.update(set__accept_time=accept_time)
         found_order.update(set__prep_time=prep_time)
         found_order.update(set__bake_time=bake_time)

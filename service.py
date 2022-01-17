@@ -187,6 +187,14 @@ def update_order(order_id, state):
         return True
     return False
 
+def update_order_info(order_id, order_details):
+    found_order = Order.objects.with_id(order_id)
+    if found_order:
+        found_order.update(__raw__={'$set': order_details})
+        # print({*order_details})
+        return True
+    return False
+
 def get_accepted_order(phone):
     found_order = Order.objects(phone=phone, status="Đang thực hiện")
     if found_order:

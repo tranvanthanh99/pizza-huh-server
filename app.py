@@ -167,6 +167,16 @@ def update_order():
     else:
       return jsonify({'success': False}), 201
 
+@app.route('/update-order-info', methods=['POST'])
+def update_order_info():
+    order_id = request.json['order_id']
+    info = request.json['info']
+    res = service.update_order_info(order_id, info)
+    if res:
+      return jsonify({'success': True}) , 200
+    else:
+      return jsonify({'success': False}), 201
+
 @app.route('/track-order/<phone>')
 def track_order(phone):
     found_order = service.get_accepted_order(phone)
